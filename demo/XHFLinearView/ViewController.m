@@ -49,7 +49,7 @@
     bar1.backgroundColor=[self randomColor];
     
     NSInteger index=1;
-    if(self.linearView.dataSource.count>0){
+    if(self.linearView.dataSource.count==0){
         index=0;
     }
     [self.linearView insertItem:bar1 margin:XHFMarginMake(5,5,5,5) atIndex:index withAnimation:UITableViewRowAnimationNone];
