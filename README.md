@@ -3,6 +3,7 @@ XHFLinearView
 
 iOS LinearView Container and  operate with animations
 
+<img src="http://xuhengfei.com/assets/images/articles/2013-09-28-linearview.png" width="240"/>
 
 ##Usage Example
 
