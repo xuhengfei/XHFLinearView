@@ -37,6 +37,7 @@
         [self.linearView.dataSource addObject:XHFLinearViewUnitMake(label, XHFMarginMake(5, 5, 5, 5))];
     }
     [self.linearView needLayout];
+    
 }
 
 - (IBAction)insertAction:(id)sender {
@@ -52,14 +53,14 @@
     if(self.linearView.dataSource.count==0){
         index=0;
     }
-    [self.linearView insertItem:bar1 margin:XHFMarginMake(5,5,5,5) atIndex:index withAnimation:UITableViewRowAnimationNone];
+    [self.linearView insertItem:bar1 margin:XHFMarginMake(5,5,5,5) atIndex:index withAnimation:XHFLinearItemAnimationBottom];
     
 }
 
 - (IBAction)deleteAction:(id)sender {
     if(self.linearView.items.count>0){
         UIView *item=[self.linearView.items objectAtIndex:0];
-        [self.linearView removeItem:item withAnimation:UITableViewRowAnimationTop];
+        [self.linearView removeItem:item withAnimation:XHFLinearItemAnimationTop];
     }
 }
 
@@ -73,7 +74,7 @@
     
     bar1.backgroundColor=[self randomColor];
     
-    [self.linearView replaceItem:[self.linearView.items objectAtIndex:0] withNewItem:bar1 withAnimation:UITableViewRowAnimationFade];
+    [self.linearView replaceItem:[self.linearView.items objectAtIndex:0] withNewItem:bar1 withAnimation:XHFLinearItemAnimationLeft];
 }
 
 - (IBAction)resizeAction:(id)sender {

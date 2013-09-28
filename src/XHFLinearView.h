@@ -19,6 +19,18 @@ static inline XHFMargin XHFMarginMake(CGFloat top, CGFloat left, CGFloat bottom,
 
 #define XHFMarginZero XHFMarginMake(0,0,0,0)
 
+typedef NS_ENUM(NSInteger, XHFLinearItemAnimation) {
+    XHFLinearItemAnimationFade,
+    XHFLinearItemAnimationRight,           // slide in from right (or out to right)
+    XHFLinearItemAnimationLeft,
+    XHFLinearItemAnimationTop,
+    XHFLinearItemAnimationBottom,
+    XHFLinearItemAnimationNone,            // available in iOS 3.0
+    XHFLinearItemAnimationMiddle,          // available in iOS 3.2.  attempts to keep cell centered in the space it will/did occupy
+    XHFLinearItemAnimationAutomatic = 100  // available in iOS 5.0.  chooses an appropriate animation style for you
+};
+
+
 @interface XHFLinearViewUnit : NSObject
 
 @property (nonatomic,strong) UIView *view;
@@ -44,19 +56,19 @@ static inline XHFLinearViewUnit *XHFLinearViewUnitMake(UIView *view,XHFMargin ma
 -(void)needLayout;
 -(void)needLayoutForItem:(UIView*)item;
 
--(void)insertItem:(UIView *)item margin:(XHFMargin)margin atIndex:(NSUInteger)index withAnimation:(UITableViewRowAnimation)animation;
--(void)insertItem:(UIView *)item margin:(XHFMargin)margin afterItem:(UIView *)relativeItem withAnimation:(UITableViewRowAnimation)animation;
--(void)insertItem:(UIView *)item margin:(XHFMargin)margin beforeItem:(UIView *)relativeItem withAnimation:(UITableViewRowAnimation)animation;
+-(void)insertItem:(UIView *)item margin:(XHFMargin)margin atIndex:(NSUInteger)index withAnimation:(XHFLinearItemAnimation)animation;
+-(void)insertItem:(UIView *)item margin:(XHFMargin)margin afterItem:(UIView *)relativeItem withAnimation:(XHFLinearItemAnimation)animation;
+-(void)insertItem:(UIView *)item margin:(XHFMargin)margin beforeItem:(UIView *)relativeItem withAnimation:(XHFLinearItemAnimation)animation;
 
--(void)appendItem:(UIView*)item margin:(XHFMargin)margin withAnimation:(UITableViewRowAnimation)animation;
-
-
--(void)replaceItem:(UIView *)oldItem withNewItem:(UIView *)newItem withAnimation:(UITableViewRowAnimation)animation;
--(void)replaceItem:(UIView *)oldItem withNewItem:(UIView *)newItem withNewMargin:(XHFMargin)margin withAnimation:(UITableViewRowAnimation)animation;
+-(void)appendItem:(UIView*)item margin:(XHFMargin)margin withAnimation:(XHFLinearItemAnimation)animation;
 
 
--(void)removeItem:(UIView *)item withAnimation:(UITableViewRowAnimation)animation;
--(void)removeItemByIndex:(NSInteger)index withAnimation:(UITableViewRowAnimation)animation;
+-(void)replaceItem:(UIView *)oldItem withNewItem:(UIView *)newItem withAnimation:(XHFLinearItemAnimation)animation;
+-(void)replaceItem:(UIView *)oldItem withNewItem:(UIView *)newItem withNewMargin:(XHFMargin)margin withAnimation:(XHFLinearItemAnimation)animation;
+
+
+-(void)removeItem:(UIView *)item withAnimation:(XHFLinearItemAnimation)animation;
+-(void)removeItemByIndex:(NSInteger)index withAnimation:(XHFLinearItemAnimation)animation;
 
 -(NSInteger)indexOfItem:(UIView*)item;
 -(XHFMargin)marginOfItem:(UIView*)item;

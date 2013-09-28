@@ -56,66 +56,66 @@
     }
 }
 
--(void)insertItem:(UIView *)item margin:(XHFMargin)margin atIndex:(NSUInteger)index withAnimation:(UITableViewRowAnimation)animation{
+-(void)insertItem:(UIView *)item margin:(XHFMargin)margin atIndex:(NSUInteger)index withAnimation:(XHFLinearItemAnimation)animation{
     [self.dataSource insertObject:XHFLinearViewUnitMake(item, margin) atIndex:index];
     [self.tableView beginUpdates];
     NSIndexSet *indexSet=[NSIndexSet indexSetWithIndex:index];
-    [self.tableView insertSections:indexSet withRowAnimation:animation];
+    [self.tableView insertSections:indexSet withRowAnimation:(UITableViewRowAnimation)animation];
     [self fitHeight];
     [self.tableView endUpdates];
 }
 
--(void)insertItem:(UIView *)item margin:(XHFMargin)margin beforeItem:(UIView *)relativeItem withAnimation:(UITableViewRowAnimation)animation{
+-(void)insertItem:(UIView *)item margin:(XHFMargin)margin beforeItem:(UIView *)relativeItem withAnimation:(XHFLinearItemAnimation)animation{
     NSInteger index=[self indexOfItem:relativeItem];
     if(index!=-1){
         [self insertItem:item margin:margin atIndex:index withAnimation:animation];
     }
 
 }
--(void)insertItem:(UIView *)item margin:(XHFMargin)margin afterItem:(UIView *)relativeItem withAnimation:(UITableViewRowAnimation)animation{
+-(void)insertItem:(UIView *)item margin:(XHFMargin)margin afterItem:(UIView *)relativeItem withAnimation:(XHFLinearItemAnimation)animation{
     NSInteger index=[self indexOfItem:relativeItem];
     if(index!=-1){
         [self insertItem:item margin:margin atIndex:index+1 withAnimation:animation];
     }
 }
--(void)appendItem:(UIView *)item margin:(XHFMargin)margin withAnimation:(UITableViewRowAnimation)animation{
+-(void)appendItem:(UIView *)item margin:(XHFMargin)margin withAnimation:(XHFLinearItemAnimation)animation{
     [self.dataSource addObject:XHFLinearViewUnitMake(item, margin)];
     [self.tableView beginUpdates];
     NSIndexSet *indexSet=[NSIndexSet indexSetWithIndex:self.dataSource.count-1];
-    [self.tableView insertSections:indexSet withRowAnimation:animation];
+    [self.tableView insertSections:indexSet withRowAnimation:(UITableViewRowAnimation)animation];
     [self fitHeight];
     [self.tableView endUpdates];
 }
--(void)replaceItem:(UIView *)oldItem withNewItem:(UIView *)newItem withAnimation:(UITableViewRowAnimation)animation{
+-(void)replaceItem:(UIView *)oldItem withNewItem:(UIView *)newItem withAnimation:(XHFLinearItemAnimation)animation{
     NSInteger index=[self indexOfItem:oldItem];
     if(index!=-1){
         XHFLinearViewUnit *old=[self.dataSource objectAtIndex:index];
         [self replaceItem:oldItem withNewItem:newItem withNewMargin:old.margin withAnimation:animation];
     }
 }
--(void)replaceItem:(UIView *)oldItem withNewItem:(UIView *)newItem withNewMargin:(XHFMargin)margin withAnimation:(UITableViewRowAnimation)animation{
+-(void)replaceItem:(UIView *)oldItem withNewItem:(UIView *)newItem withNewMargin:(XHFMargin)margin withAnimation:(XHFLinearItemAnimation)animation{
     NSInteger index=[self indexOfItem:oldItem];
     if(index!=-1){
         [self.dataSource removeObjectAtIndex:index];
         [self.dataSource insertObject:XHFLinearViewUnitMake(newItem, margin) atIndex:index];
         [self.tableView beginUpdates];
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:animation];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:(UITableViewRowAnimation)animation];
         [self fitHeight];
         [self.tableView endUpdates];
     }
 }
 
--(void)removeItem:(UIView *)item withAnimation:(UITableViewRowAnimation)animation{
+-(void)removeItem:(UIView *)item withAnimation:(XHFLinearItemAnimation)animation{
     NSInteger index=[self indexOfItem:item];
     if(index>=0){
         [self removeItemByIndex:index withAnimation:animation];
     }
 }
--(void)removeItemByIndex:(NSInteger)index withAnimation:(UITableViewRowAnimation)animation{
+-(void)removeItemByIndex:(NSInteger)index withAnimation:(XHFLinearItemAnimation)animation{
     [self.dataSource removeObjectAtIndex:index];
     [self.tableView beginUpdates];
     NSIndexSet *indexSet=[NSIndexSet indexSetWithIndex:index];
-    [self.tableView deleteSections:indexSet withRowAnimation:animation];
+    [self.tableView deleteSections:indexSet withRowAnimation:(UITableViewRowAnimation)animation];
     [self fitHeight];
     [self.tableView endUpdates];
 }
