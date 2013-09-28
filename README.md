@@ -15,14 +15,14 @@ iOS LinearView Container and  operate with animations
     //force layout linear view
     [linearView needLayout];
     //insert a view with animation
-    [linearView insertItem:someView margin:XHFMarginMake(0, 0, 0, 0) atIndex:0 withAnimation:UITableViewRowAnimationFade];
+    [linearView insertItem:someView margin:XHFMarginMake(0, 0, 0, 0) atIndex:0 withAnimation:XHFLinearItemAnimationFade];
     //replace a view with animation
-    [linearView replaceItem:someView withNewItem:newView withAnimation:UITableViewRowAnimationFade];
+    [linearView replaceItem:someView withNewItem:newView withAnimation:XHFLinearItemAnimationFade];
     //resize a view with animation
     someView.frame=xxx;
     [linearView needLayoutForItem:someView];
     //remove a view with animation
-    [linearView removeItemByIndex:0 withAnimation:UITableViewRowAnimationFade];
+    [linearView removeItemByIndex:0 withAnimation:XHFLinearItemAnimationFade];
     
 ```
 Checkout the demo project for additional tests and examples.
