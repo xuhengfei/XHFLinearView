@@ -11,7 +11,7 @@ iOS LinearView Container and  operate with animations
     XHFLinearView *linearView=[[XHFLinearView alloc]initWithFrame:self.view.bounds];
     [self.view addSubview:linearView];
     //init linear view content views
-    [linearView.dataSource addObject:XHFLinearViewUnitMake(someView, XHFMarginMake(0, 0, 0, 0))];
+    [linearView.itemSource addObject:XHFLinearViewUnitMake(someView, XHFMarginMake(0, 0, 0, 0))];
     //force layout linear view
     [linearView needLayout];
     //insert a view with animation
