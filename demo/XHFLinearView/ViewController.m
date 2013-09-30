@@ -34,7 +34,7 @@
         label.textAlignment=NSTextAlignmentCenter;
         label.backgroundColor=[self randomColor];
         
-        [self.linearView.dataSource addObject:XHFLinearViewUnitMake(label, XHFMarginMake(5, 5, 5, 5))];
+        [self.linearView.itemSource addObject:XHFLinearViewUnitMake(label, XHFMarginMake(5, 5, 5, 5))];
     }
     [self.linearView needLayout];
     
@@ -50,7 +50,7 @@
     bar1.backgroundColor=[self randomColor];
     
     NSInteger index=1;
-    if(self.linearView.dataSource.count==0){
+    if(self.linearView.itemSource.count==0){
         index=0;
     }
     [self.linearView insertItem:bar1 margin:XHFMarginMake(5,5,5,5) atIndex:index withAnimation:XHFLinearItemAnimationBottom];

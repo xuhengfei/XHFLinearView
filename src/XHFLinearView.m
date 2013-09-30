@@ -32,7 +32,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-        _dataSource=[NSMutableArray array];
+        _itemSource=[NSMutableArray array];
         
         self.tableView=[[UITableView alloc]initWithFrame:self.bounds style:UITableViewStylePlain];
         self.tableView.delegate=self;
@@ -47,9 +47,11 @@
     return self;
 }
 -(void)needLayout{
+    [self fitHeight];
     [self.tableView reloadData];
 }
 -(void)needLayoutForItem:(UIView *)item{
+    [self fitHeight];
     NSInteger index=[self indexOfItem:item];
     if(index!=-1){
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationNone];
@@ -57,7 +59,7 @@
 }
 
 -(void)insertItem:(UIView *)item margin:(XHFMargin)margin atIndex:(NSUInteger)index withAnimation:(XHFLinearItemAnimation)animation{
-    [self.dataSource insertObject:XHFLinearViewUnitMake(item, margin) atIndex:index];
+    [self.itemSource insertObject:XHFLinearViewUnitMake(item, margin) atIndex:index];
     [self.tableView beginUpdates];
     NSIndexSet *indexSet=[NSIndexSet indexSetWithIndex:index];
     [self.tableView insertSections:indexSet withRowAnimation:(UITableViewRowAnimation)animation];
@@ -79,9 +81,9 @@
     }
 }
 -(void)appendItem:(UIView *)item margin:(XHFMargin)margin withAnimation:(XHFLinearItemAnimation)animation{
-    [self.dataSource addObject:XHFLinearViewUnitMake(item, margin)];
+    [self.itemSource addObject:XHFLinearViewUnitMake(item, margin)];
     [self.tableView beginUpdates];
-    NSIndexSet *indexSet=[NSIndexSet indexSetWithIndex:self.dataSource.count-1];
+    NSIndexSet *indexSet=[NSIndexSet indexSetWithIndex:self.itemSource.count-1];
     [self.tableView insertSections:indexSet withRowAnimation:(UITableViewRowAnimation)animation];
     [self fitHeight];
     [self.tableView endUpdates];
@@ -89,15 +91,15 @@
 -(void)replaceItem:(UIView *)oldItem withNewItem:(UIView *)newItem withAnimation:(XHFLinearItemAnimation)animation{
     NSInteger index=[self indexOfItem:oldItem];
     if(index!=-1){
-        XHFLinearViewUnit *old=[self.dataSource objectAtIndex:index];
+        XHFLinearViewUnit *old=[self.itemSource objectAtIndex:index];
         [self replaceItem:oldItem withNewItem:newItem withNewMargin:old.margin withAnimation:animation];
     }
 }
 -(void)replaceItem:(UIView *)oldItem withNewItem:(UIView *)newItem withNewMargin:(XHFMargin)margin withAnimation:(XHFLinearItemAnimation)animation{
     NSInteger index=[self indexOfItem:oldItem];
     if(index!=-1){
-        [self.dataSource removeObjectAtIndex:index];
-        [self.dataSource insertObject:XHFLinearViewUnitMake(newItem, margin) atIndex:index];
+        [self.itemSource removeObjectAtIndex:index];
+        [self.itemSource insertObject:XHFLinearViewUnitMake(newItem, margin) atIndex:index];
         [self.tableView beginUpdates];
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:(UITableViewRowAnimation)animation];
         [self fitHeight];
@@ -112,7 +114,7 @@
     }
 }
 -(void)removeItemByIndex:(NSInteger)index withAnimation:(XHFLinearItemAnimation)animation{
-    [self.dataSource removeObjectAtIndex:index];
+    [self.itemSource removeObjectAtIndex:index];
     [self.tableView beginUpdates];
     NSIndexSet *indexSet=[NSIndexSet indexSetWithIndex:index];
     [self.tableView deleteSections:indexSet withRowAnimation:(UITableViewRowAnimation)animation];
@@ -137,8 +139,8 @@
 
 -(NSInteger)indexOfItem:(UIView*)item{
     NSInteger index=-1;
-    for(int i=0;i<self.dataSource.count;i++){
-        XHFLinearViewUnit *unit=[self.dataSource objectAtIndex:i];
+    for(int i=0;i<self.itemSource.count;i++){
+        XHFLinearViewUnit *unit=[self.itemSource objectAtIndex:i];
         if(unit.view == item){
             index=i;
             break;
@@ -149,14 +151,14 @@
 -(XHFMargin)marginOfItem:(UIView *)item{
     NSInteger index=[self indexOfItem:item];
     if(index!=-1){
-        XHFLinearViewUnit *unit=[self.dataSource objectAtIndex:index];
+        XHFLinearViewUnit *unit=[self.itemSource objectAtIndex:index];
         return unit.margin;
     }
     return XHFMarginZero;
 }
 -(NSArray *)items{
-    NSMutableArray *items=[NSMutableArray arrayWithCapacity:self.dataSource.count];
-    for(XHFLinearViewUnit *unit in self.dataSource){
+    NSMutableArray *items=[NSMutableArray arrayWithCapacity:self.itemSource.count];
+    for(XHFLinearViewUnit *unit in self.itemSource){
         [items addObject:unit.view];
     }
     return items;
@@ -166,7 +168,7 @@
 -(void)fitHeight{
     if(self.forceFitHeight){
         float totalHeight=0;
-        for(XHFLinearViewUnit *unit in self.dataSource){
+        for(XHFLinearViewUnit *unit in self.itemSource){
             totalHeight+=[unit height];
         }
         CGRect frame=self.frame;
@@ -179,7 +181,7 @@
 #pragma mark UITableView
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return self.dataSource.count;
+    return self.itemSource.count;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
@@ -188,7 +190,7 @@
     UITableViewCell *cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor whiteColor];
-    XHFLinearViewUnit *unit=[self.dataSource objectAtIndex:indexPath.section];
+    XHFLinearViewUnit *unit=[self.itemSource objectAtIndex:indexPath.section];
     XHFMargin margin=unit.margin;
     UIView *item=unit.view;
     UIView *outer=[[UIView alloc]initWithFrame:CGRectMake(0, 0, margin.left+margin.right+item.bounds.size.width, margin.top+margin.bottom+item.bounds.size.height)];
@@ -200,7 +202,7 @@
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    XHFLinearViewUnit *unit=[self.dataSource objectAtIndex:indexPath.section];
+    XHFLinearViewUnit *unit=[self.itemSource objectAtIndex:indexPath.section];
     return unit.view.bounds.size.height+unit.margin.top+unit.margin.bottom;
 }
 
@@ -209,7 +211,7 @@
 -(void)layoutSubviews{
     if(self.forceFitHeight){
         float totalHeight=0;
-        for(XHFLinearViewUnit *unit in self.dataSource){
+        for(XHFLinearViewUnit *unit in self.itemSource){
             totalHeight+=[unit height];
         }
         CGRect frame=self.frame;

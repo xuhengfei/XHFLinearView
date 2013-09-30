@@ -51,7 +51,7 @@ static inline XHFLinearViewUnit *XHFLinearViewUnitMake(UIView *view,XHFMargin ma
 @property (nonatomic,assign) BOOL forceFitHeight;
 @property (nonatomic,getter=isScrollEnabled) BOOL          scrollEnabled;
 @property (nonatomic) BOOL          bounces;
-@property (nonatomic,strong,readonly) NSMutableArray *dataSource;//datasource of linearview, type with XHFLinearViewUnit
+@property (nonatomic,strong,readonly) NSMutableArray *itemSource;//datasource of linearview, type with XHFLinearViewUnit
 
 -(void)needLayout;
 -(void)needLayoutForItem:(UIView*)item;
