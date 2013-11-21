@@ -124,6 +124,19 @@
 }
 
 
+
+-(void)setShowsHorizontalScrollIndicator:(BOOL)showsHorizontalScrollIndicator{
+    [self.tableView setShowsHorizontalScrollIndicator:showsHorizontalScrollIndicator];
+}
+-(BOOL)isShowsHorizontalScrollIndicator{
+    return self.tableView.showsHorizontalScrollIndicator;
+}
+-(void)setShowsVerticalScrollIndicator:(BOOL)showsVerticalScrollIndicator{
+    [self.tableView setShowsVerticalScrollIndicator:showsVerticalScrollIndicator];
+}
+-(BOOL)isShowsVerticalScrollIndicator{
+    return self.tableView.showsVerticalScrollIndicator;
+}
 -(void)setScrollEnabled:(BOOL)enable{
     [self.tableView setScrollEnabled:enable];
 }
