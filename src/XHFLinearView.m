@@ -54,6 +54,7 @@
     [self fitHeight];
     NSInteger index=[self indexOfItem:item];
     if(index!=-1){
+        [self.tableView reloadData];
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationNone];
     }
 }
