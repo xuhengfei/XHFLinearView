@@ -21,8 +21,6 @@
 
 @interface XHFLinearView()<UITableViewDataSource,UITableViewDelegate>
 
-@property (nonatomic,strong) UITableView *tableView;
-
 @end
 
 @implementation XHFLinearView
